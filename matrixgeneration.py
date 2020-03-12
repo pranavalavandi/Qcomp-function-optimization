@@ -1,3 +1,4 @@
+import numpy as np
 
 def generate_array(arr, n):
     global strings
@@ -5,6 +6,7 @@ def generate_array(arr, n):
     for i in range(0, n):
 #         print(arr[i], end = " ")
         x += str(arr[i])
+#         print(x)
     strings.append(x)
 #     print()
 
@@ -25,10 +27,13 @@ def objective_function(strings):
     results = []
     count = 0
     for i in range(len(strings)):
+        count = 0
         for l in range(len(strings[i])):
-            if strings[i][l] == 1:
+            if strings[i][l] == "1":
                 count += 1
         results.append(count)
+    return results
+
 
 # Driver Code
 if __name__ == "__main__":
@@ -40,4 +45,17 @@ if __name__ == "__main__":
     binary_strings(n, arr, 0)
     print("testing")
     for i in range(len(strings)):
-        print(results[i])
+        print(strings[i])
+    results = objective_function(strings)
+
+    matrix =  []
+#     print(results)
+    dimension = int(np.sqrt(2**n))
+    for i in range(0,dimension):
+        token = []
+        for j in range(0, int(np.sqrt(2**n))):
+            token.append(results[i+j])
+        matrix.append(token)
+
+    m = np.asmatrix(matrix)
+    print(m)
