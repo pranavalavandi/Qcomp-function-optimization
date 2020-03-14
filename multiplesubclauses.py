@@ -74,14 +74,8 @@ if __name__ == "__main__":
     for i in range(len(results1)):
         results.append(results1[i] + results2[i])
 
-    matrix =  []
-#     print(results)
-    dimension = int(np.sqrt(2**n))
-    for i in range(0,dimension):
-        token = []
-        for j in range(0, int(np.sqrt(2**n))):
-            token.append(results[i+j])
-        matrix.append(token)
+    matrix =  np.zeros((2**n,2**n), dtype= np.int32);
+    for i in range(2**n):
+        matrix[i][i] = results[i]
 
-    m = np.asmatrix(matrix)
-    print(m)
+    print(matrix)
