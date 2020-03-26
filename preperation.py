@@ -90,18 +90,16 @@ def generate_B_2(n):
 def unitary_operator(C_one,C_two, gamma,n):
     result = np.identity(2**n,dtype= float)
 
-    # one = np.exp(C_one)
     matrix =  np.zeros((2**n,2**n), dtype=float);
     for i in range(2**n):
-        matrix[i][i] = -1j * gamma * np.exp(C_one[i])
+        matrix[i][i] =  np.exp(-1j * gamma * C_one[i])
 
     result = result * matrix
 
-    two = np.exp(C_two)
 
     matrix =  np.zeros((2**n,2**n), dtype=float);
     for i in range(2**n):
-        matrix[i][i] = -1j * gamma * np.exp(C_two[i])
+        matrix[i][i] = np.exp(-1j * gamma *C_two[i])
 
     result = result * matrix
 
