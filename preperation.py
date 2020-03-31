@@ -65,7 +65,7 @@ def results_matrix(strings):
 
     return matrix
 
-def generate_B(n, k):
+def flip_k_bit(n, k):
     B =  np.zeros((2**n,2**n), dtype=np.int32)
     for i in range(2**n):
         i_flipped = i ^ (2**k)
@@ -74,6 +74,13 @@ def generate_B(n, k):
 
     return B
 
+def generate_B(n)
+    B = np.zeros((2**n,2**n),dtype = np.int32)
+    for i in range(1,n+1):
+        B += flip_k_bit(n,i)
+
+
+    return B
 
 
 def unitary_operator(array_results, gamma,n):
