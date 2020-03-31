@@ -1,5 +1,5 @@
 import numpy as np
-
+from scipy.linalg import expm
 def generate_array(arr, n):
     global strings
     x = ''
@@ -65,56 +65,29 @@ def results_matrix(strings):
 
     return matrix
 
-def generate_B(n):
-    B =  np.zeros((n,n), dtype=np.int32)
+def generate_B(n, k):
+    B =  np.zeros((2**n,2**n), dtype=np.int32)
+    for i in range(2**n):
+        i_flipped = i ^ (2**k)
+        B[i,i_flipped] = 1
 
-    for i in range(n):
-        temp_matrix = np.zeros((n,n),dtype = np.int32)
-        for k in range(n):
-            if k == i:
-                temp_matrix[k][k] = -1
-            else:
-                temp_matrix[k][k] = 1
-
-        B += temp_matrix
 
     return B
 
-def generate_B_2(n):
-    matrix = np.zeros((n,n), dtype=np.int32)
-    for i in range(n):
-        matrix[i][i] = n - 2
-
-    return matrix
-
-def unitary_operator(C_one,C_two, gamma,n):
-    result = np.identity(2**n,dtype= float)
-
-    matrix =  np.zeros((2**n,2**n), dtype=float);
-    for i in range(2**n):
-        matrix[i][i] =  np.exp(-1j * gamma * C_one[i])
-
-    result = result * matrix
 
 
-    matrix =  np.zeros((2**n,2**n), dtype=float);
-    for i in range(2**n):
-        matrix[i][i] = np.exp(-1j * gamma *C_two[i])
+def unitary_operator(array_results, gamma,n):
+    # array results is a 2d array of results from each subclause
+    result = np.identity(2**n,dtype= np.complex)
 
-    result = result * matrix
+    matrix =  np.zeros((2**n,2**n), dtype= np.complex);
 
+    for i in range(len(array_results)):
+        for k in range(2**n):
+            matrix[i][i] = array_results[i][k]
 
+        result *= expm(-1j*gamma*matrix)
 
-
-    #
-    # for i in range(2**n):
-    #     C_one[i][i] = np.exp(-1j*gamma*(C_one[i][i]))
-    #
-    # for i in range(2**n):
-    #     C_two[i][i] = np.exp(-1j*gamma*(C_two[i][i]))
-
-
-#     result = result * C_1 * C_2
 
     return result
 
@@ -128,27 +101,21 @@ if __name__ == "__main__":
     arr = [None] * n
     strings = []
     binary_strings(n, arr, 0)
+
 #     for i in range(len(strings)):
 #         print(strings[i])
 #     results1 = first_subclause(strings)
 #     results2 = second_subclause(strings)
 
-#     results = []
-#     for i in range(len(results1)):
-#         results.append(results1[i] + results2[i])
-
-#     matrix =  np.zeros((2**n,2**n), dtype=np.int32);
-#     for i in range(2**n):
-#         matrix[i][i] = results[i]
-
     results1 = first_subclause(strings)
     results2 = second_subclause(strings)
+    array_results = [results1,results2]
 
     matrix = results_matrix(strings)
-    u_operator = unitary_operator(results1,results2,gamma,n)
+    u_operator = unitary_operator(array_results,gamma,n)
     print("Results Matrix\n")
     print(matrix)
     print("Sum of single bit operators")
-    print(generate_B_2(n))
+    print(generate_B(2,0))
     print("Unitary operator")
     print(u_operator)
