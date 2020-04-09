@@ -1,14 +1,14 @@
 import numpy as np
 from scipy.linalg import expm
+
 def generate_array(arr, n):
     global strings
     x = ''
+
     for i in range(0, n):
-#         print(arr[i], end = " ")
         x += str(arr[i])
-#         print(x)
     strings.append(x)
-#     print()
+
 
 # Function to generate all binary strings
 def binary_strings(n, arr, i):
@@ -66,63 +66,109 @@ def results_matrix(strings):
     return matrix
 
 def flip_k_bit(n, k):
-    B =  np.zeros((2**n,2**n), dtype=np.int32)
+    A =  np.zeros((2**n,2**n), dtype=np.int32)
+
     for i in range(2**n):
         i_flipped = i ^ (2**k)
-        B[i,i_flipped] = 1
+        A[i,i_flipped] = 1
+
+    return A
 
 
-    return B
-
-def generate_B(n)
+def generate_B(n):
     B = np.zeros((2**n,2**n),dtype = np.int32)
-    for i in range(1,n+1):
+    for i in range(n):
         B += flip_k_bit(n,i)
-
 
     return B
 
 
 def unitary_operator(array_results, gamma,n):
-    # array results is a 2d array of results from each subclause
-    result = np.identity(2**n,dtype= np.complex)
+#     array results is a 2d array of results from each subclause
 
-    matrix =  np.zeros((2**n,2**n), dtype= np.complex);
+    result = np.identity(2**n,dtype= np.csingle)
+    matrix =  np.zeros((2**n,2**n), dtype= np.csingle);
 
     for i in range(len(array_results)):
         for k in range(2**n):
             matrix[i][i] = array_results[i][k]
 
-        result *= expm(-1j*gamma*matrix)
+        result = result.dot(expm(-1j*gamma*matrix))
 
 
     return result
 
 
+def U(B, beta):
+    return expm(-1j*beta*B)
+
+def q_state(gamma, B, beta, S, array_results, n):
+    qstate = np.identity(2**n,dtype= np.complex)
+
+    for i in beta:
+         qstate = qstate.dot(U(B,i))
+
+    for i in gamma:
+        qstate = qstate.dot(unitary_operator(array_results, i, n))
+
+    qstate = qstate.dot(S.T)
+    print(qstate)
+    print(qstate.shape)
+    return qstate
+
+
+def F_p(qstate, C):
+
+    temp = qstate.T.dot(C)
+    temp = temp.dot(qstate)
+
+    return temp
+
 
 # Driver Code
 if __name__ == "__main__":
 
-    n = 4
+    n = 2
     gamma = np.pi
+    beta = np.pi/2
+    p = 15
+
     arr = [None] * n
     strings = []
     binary_strings(n, arr, 0)
-
-#     for i in range(len(strings)):
-#         print(strings[i])
-#     results1 = first_subclause(strings)
-#     results2 = second_subclause(strings)
 
     results1 = first_subclause(strings)
     results2 = second_subclause(strings)
     array_results = [results1,results2]
 
+    S = np.array(np.ones(2**n)/np.sqrt(2**n))[np.newaxis]
+    gamma_vector = np.linspace(0,2*np.pi, p)
+    beta_vector = np.linspace(0,np.pi, p)
+
+
+
+
     matrix = results_matrix(strings)
     u_operator = unitary_operator(array_results,gamma,n)
+    B = generate_B(n)
+    qstate = q_state(gamma_vector,B,beta_vector,S,array_results,n)
+    output = F_p(qstate, matrix)
+
+
+#     print(qstate.shape)
+
     print("Results Matrix\n")
     print(matrix)
-    print("Sum of single bit operators")
-    print(generate_B(2,0))
-    print("Unitary operator")
+
+    print("B\n")
+    print(B)
+
+    print("qstate\n")
+    print(qstate)
+
+    print("Unitary operator\n")
     print(u_operator)
+
+    print("output\n")
+    print(output.shape)
+    print(output)
