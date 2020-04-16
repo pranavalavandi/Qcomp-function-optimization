@@ -9,8 +9,6 @@ def generate_array(arr, n):
         x += str(arr[i])
     strings.append(x)
 
-
-# Function to generate all binary strings
 def binary_strings(n, arr, i):
     if i == n:
         generate_array(arr, n)
@@ -105,24 +103,61 @@ def U(B, beta):
 def q_state(gamma, B, beta, S, array_results, n):
     qstate = np.identity(2**n,dtype= np.complex)
 
-    for i in beta:
-         qstate = qstate.dot(U(B,i))
+#     for i in beta:
+#          qstate = qstate.dot(U(B,i))
 
-    for i in gamma:
+#     for i in gamma:
+#         qstate = qstate.dot(unitary_operator(array_results, i, n))
+
+
+    for i in range(len(beta)):
+        qstate = qstate.dot(U(B,i))
         qstate = qstate.dot(unitary_operator(array_results, i, n))
 
+
+
     qstate = qstate.dot(S.T)
-    print(qstate)
-    print(qstate.shape)
+
     return qstate
 
 
 def F_p(qstate, C):
 
-    temp = qstate.T.dot(C)
+    temp = np.conj(qstate)
+    temp = temp.T.dot(C)
     temp = temp.dot(qstate)
 
     return temp
+
+def Func(gamma, beta):
+    n = 2
+    gamma = np.pi
+    beta = np.pi/2
+
+    global strings
+
+    results1 = first_subclause(strings)
+    results2 = second_subclause(strings)
+    array_results = [results1,results2]
+    S = np.array(np.ones(2**n)/np.sqrt(2**n))[np.newaxis]
+    matrix = results_matrix(strings)
+    u_operator = unitary_operator(array_results,gamma,n)
+    B = generate_B(n)
+    qstate = q_state(gamma_vector,B,beta_vector,S,array_results,n)
+    output = F_p(qstate, matrix)
+
+
+    return output
+
+
+def H(t):
+    T = 1000
+    C = unitary_operator(array_results,gamma,n)
+    B = generate_B(n)
+
+    H_t = B(1-t/T) + c(t/T)
+
+    return H(t)
 
 
 # Driver Code
@@ -132,6 +167,7 @@ if __name__ == "__main__":
     gamma = np.pi
     beta = np.pi/2
     p = 15
+
 
     arr = [None] * n
     strings = []
@@ -145,14 +181,12 @@ if __name__ == "__main__":
     gamma_vector = np.linspace(0,2*np.pi, p)
     beta_vector = np.linspace(0,np.pi, p)
 
-
-
-
     matrix = results_matrix(strings)
     u_operator = unitary_operator(array_results,gamma,n)
     B = generate_B(n)
     qstate = q_state(gamma_vector,B,beta_vector,S,array_results,n)
     output = F_p(qstate, matrix)
+    print(Func(gamma_vector, beta_vector))
 
 
 #     print(qstate.shape)
