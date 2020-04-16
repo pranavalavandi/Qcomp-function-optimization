@@ -1,5 +1,7 @@
 import numpy as np
 from scipy.linalg import expm
+from scipy.optimize import minimize
+
 
 def generate_array(arr, n):
     global strings
