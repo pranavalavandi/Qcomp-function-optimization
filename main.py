@@ -197,6 +197,12 @@ if __name__ == "__main__":
     output = F_p(qstate, matrix)
     print(Func(gamma_vector, beta_vector))
 
+    x1 = [np.pi/2]*p
+
+    gamma = np.linspace(0,2*np.pi, p)
+    bnds1 = [(0,2*np.pi)]*p
+    sol = minimize(Func,x1,args = (gamma,),method = 'SLSQP',bounds = bnds1)
+
 
 
 #     print(qstate.shape)
