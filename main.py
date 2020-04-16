@@ -157,7 +157,16 @@ def H(t):
 
     H_t = B(1-t/T) + c(t/T)
 
-    return H(t)
+    return H_t
+
+
+def H_optimize():
+    T = 1000
+    t = np.linspace(0,T,1000)
+
+    for time in t:
+        U = np.expm(H(time))
+
 
 
 # Driver Code
@@ -187,6 +196,7 @@ if __name__ == "__main__":
     qstate = q_state(gamma_vector,B,beta_vector,S,array_results,n)
     output = F_p(qstate, matrix)
     print(Func(gamma_vector, beta_vector))
+
 
 
 #     print(qstate.shape)
