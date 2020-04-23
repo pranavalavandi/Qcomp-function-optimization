@@ -126,7 +126,7 @@ def H_optimize(n):
 
 if __name__ == "__main__":
 
-    n = 3
+    n = 7
     p = 6
     arr = [None] * n
 
@@ -134,7 +134,7 @@ if __name__ == "__main__":
     binary_string.binary_strings(n, arr, 0)
     binary_string.fix_strings()
 
-    gamma_vector = np.linspace(0,2*np.pi, 6)
+    # gamma_vector = np.linspace(0,2*np.pi, 6)
     # beta_vector = np.linspace(0,np.pi * 1.1, p)
     #
     #
@@ -155,5 +155,5 @@ if __name__ == "__main__":
 
 
 
-    sol = minimize(F_p_test,x0,method = 'SLSQP',bounds = bnds1)
+    sol = minimize(F_p_test,x1,method = 'SLSQP',bounds = bnds1)
     print(sol)
