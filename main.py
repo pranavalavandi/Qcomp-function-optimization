@@ -1,6 +1,7 @@
 
 import numpy as np
 from scipy.linalg import expm
+from scipy.optimize import minimize
 
 import settings
 import binary_string
@@ -80,11 +81,41 @@ def inner_function(n, results_array, gamma_array, beta_array):
 
 def F_p(gamma_array, beta_array):
 
-    global strings
 
     results_array = objective_function.gen_results_arr()
 
     return inner_function(n,results_array,gamma_vector,beta_vector)
+
+
+
+def H(t, B,C):
+
+    T = 1000
+
+
+    H_t = B*(1-t/T) + C*(t/T)
+
+    return H_t
+
+
+def H_optimize(n):
+    results_array = objective_function.gen_results_arr()
+
+    T = 1000
+    t = np.linspace(0,T,1000)
+    C = C_z(results_array)
+    B = generate_B(n)
+
+
+    S = np.array(np.ones(2**n)/np.sqrt(2**n))[np.newaxis]
+    qstate = np.identity(2**n,dtype= np.complex)
+    results = []
+    for time in t:
+        U = expm(H(time,B,C))
+        results.append((S).dot(U).dot(S.T))
+
+    return results
+
 
 
 
@@ -93,13 +124,30 @@ if __name__ == "__main__":
     n = 3
     p = 6
     arr = [None] * n
-    # strings = []
+
     settings.init()
     binary_string.binary_strings(n, arr, 0)
     binary_string.fix_strings()
 
-    gamma_vector = np.linspace(0,2*np.pi, p)
-    beta_vector = np.linspace(0,np.pi, p)
+    # gamma_vector = np.linspace(0,2*np.pi, p)
+    # beta_vector = np.linspace(0,np.pi * 1.1, p)
+    #
+    #
+    # print(F_p(gamma_vector,beta_vector))
 
-    # print(settings.strings)
-    print(F_p(gamma_vector,beta_vector))
+    test = H_optimize(n)
+
+    print(test[900:1000])
+
+
+    # x0 = [np.pi/3]*p
+    # x1 = [np.pi/4]*p
+    #
+    # x = [x0,x1]
+    # #
+    # gamma = np.linspace(0,np.pi, p)
+    # bnds1 = [(0,2*np.pi)]*p
+    #
+    #
+    # sol = minimize(F_p,x0,args = (gamma,),method = 'SLSQP',bounds = bnds1)
+    # print(sol)
