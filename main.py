@@ -86,7 +86,12 @@ def F_p(gamma_array, beta_array):
 
     return inner_function(n,results_array,gamma_vector,beta_vector)
 
+def F_p_test(gamma_array):
+    beta_array = np.linspace(0,np.pi, 6)
 
+    results_array = objective_function.gen_results_arr()
+
+    return inner_function(n,results_array,gamma_array,beta_array)
 
 def H(t, B,C):
 
@@ -129,25 +134,26 @@ if __name__ == "__main__":
     binary_string.binary_strings(n, arr, 0)
     binary_string.fix_strings()
 
-    # gamma_vector = np.linspace(0,2*np.pi, p)
+    gamma_vector = np.linspace(0,2*np.pi, 6)
     # beta_vector = np.linspace(0,np.pi * 1.1, p)
     #
     #
     # print(F_p(gamma_vector,beta_vector))
 
-    test = H_optimize(n)
-
-    print(test[900:1000])
-
-
-    # x0 = [np.pi/3]*p
-    # x1 = [np.pi/4]*p
+    # test = H_optimize(n)
     #
-    # x = [x0,x1]
-    # #
-    # gamma = np.linspace(0,np.pi, p)
-    # bnds1 = [(0,2*np.pi)]*p
+    # print(test[900:1000])
+
+
+    x0 = [np.pi/3]*p
+    x1 = [np.pi/4]*p
+
+    x = [x0,x1]
     #
-    #
-    # sol = minimize(F_p,x0,args = (gamma,),method = 'SLSQP',bounds = bnds1)
-    # print(sol)
+    gamma = np.linspace(0,np.pi, p)
+    bnds1 = [(0,2*np.pi)]*p
+
+
+
+    sol = minimize(F_p_test,x0,method = 'SLSQP',bounds = bnds1)
+    print(sol)
