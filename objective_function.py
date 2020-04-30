@@ -17,7 +17,7 @@ def subclause_1(strings):
     for i in range(len(strings)):
         sum  = 0
         for j in range(len(strings[i])-2):
-            sum += qubit(strings[i][j])*qubit(strings[i][j+2])
+            sum += -qubit(strings[i][j])*qubit(strings[i][j+2])
 
         results[i] += sum
 

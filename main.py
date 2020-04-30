@@ -76,7 +76,7 @@ def inner_function(n, results_array, gamma_array, beta_array):
 
     temp = temp.real
 
-    return temp
+    return -1 * temp
 
 
 def F_p(gamma_array, beta_array):
@@ -86,8 +86,10 @@ def F_p(gamma_array, beta_array):
 
     return inner_function(n,results_array,gamma_vector,beta_vector)
 
-def F_p_test(gamma_array):
-    beta_array = np.linspace(0,np.pi, 6)
+def F_p_test(conc_array):
+    half = len(conc_array)//2
+    beta_array = conc_array[:half]
+    gamma_array = conc_array[half:]
 
     results_array = objective_function.gen_results_arr()
 
@@ -95,7 +97,7 @@ def F_p_test(gamma_array):
 
 def H(t, B,C):
 
-    T = 1000
+    T = 100
 
 
     H_t = B*(1-t/T) + C*(t/T)
@@ -106,54 +108,86 @@ def H(t, B,C):
 def H_optimize(n):
     results_array = objective_function.gen_results_arr()
 
-    T = 1000
-    t = np.linspace(0,T,1000)
+    T = 100
+    t = np.linspace(0,T,T)
     C = C_z(results_array)
     B = generate_B(n)
 
+    # print(C)
+    vec = (np.array(np.ones(2**n)/np.sqrt(2**n))[np.newaxis]).T
 
-    S = np.array(np.ones(2**n)/np.sqrt(2**n))[np.newaxis]
-    qstate = np.identity(2**n,dtype= np.complex)
-    results = []
     for time in t:
-        U = expm(H(time,B,C))
-        results.append((S).dot(U).dot(S.T))
+        U = expm(-1j*H(time,B,C))
+        vec = U.dot(vec)
 
-    return results
+
+    abs_val = np.absolute(vec)
+    largest_val = 0
+    j = -1
+    # print(abs_val)
+
+    for i in range(len(abs_val)):
+        if abs_val[i] >= largest_val:
+            largest_val = abs_val[i]
+            j = i
+
+    #
+    # print(largest_val, j)
+    # print("The matrix value is",C[j][j])
+
+
+
+    return [C[j][j], j]
 
 
 
 
 if __name__ == "__main__":
 
-    n = 7
-    p = 6
+    n = 8
+    p = 3
     arr = [None] * n
 
     settings.init()
     binary_string.binary_strings(n, arr, 0)
     binary_string.fix_strings()
 
-    # gamma_vector = np.linspace(0,2*np.pi, 6)
-    # beta_vector = np.linspace(0,np.pi * 1.1, p)
+    gamma_vector = np.linspace(0,2*np.pi, 6)
+    beta_vector = np.linspace(0,np.pi * 1.1, p)
     #
     #
     # print(F_p(gamma_vector,beta_vector))
 
-    # test = H_optimize(n)
-    #
-    # print(test[900:1000])
+    test = H_optimize(n)
+
+    results = []
+    results_array = objective_function.gen_results_arr()
+    for i in range(len(results_array[0])):
+        total = 0
+        for j in range(len(results_array)):
+            total += results_array[j][i]
+        results.append(total)
+
+    print("H optimize index: {} String {}".format(test[1],settings.strings[test[1]]))
+    print("Results:",results)
+
+    ind = results.index(max(results))
+    print("Manually done index {}, string {}".format(ind,settings.strings[ind]))
+
+
+
+
+
 
 
     x0 = [np.pi/3]*p
     x1 = [np.pi/4]*p
 
-    x = [x0,x1]
-    #
-    gamma = np.linspace(0,np.pi, p)
-    bnds1 = [(0,2*np.pi)]*p
+
+    x = x0 + x1
+    bnds1 = [(0,2*np.pi)]*(2*p)
 
 
-
-    sol = minimize(F_p_test,x1,method = 'SLSQP',bounds = bnds1)
+    sol = minimize(F_p_test,x,method = 'SLSQP',bounds = bnds1)
     print(sol)
+    print(F_p(sol.x[:p], sol.x[p:]))
