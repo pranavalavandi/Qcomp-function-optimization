@@ -81,15 +81,16 @@ def inner_function(n, results_array, gamma_array, beta_array):
 
 def F_p(gamma_array, beta_array):
 
-
+    n = 8
     results_array = objective_function.gen_results_arr()
 
-    return inner_function(n,results_array,gamma_vector,beta_vector)
+    return inner_function(n,results_array,gamma_array,beta_array)
 
 def F_p_test(conc_array):
+    n = 8
     half = len(conc_array)//2
-    beta_array = conc_array[:half]
-    gamma_array = conc_array[half:]
+    beta_array = conc_array[half:]
+    gamma_array = conc_array[:half]
 
     results_array = objective_function.gen_results_arr()
 
