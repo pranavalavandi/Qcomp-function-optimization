@@ -35,9 +35,9 @@ def C_z(results_array):
             total += results_array[j][i]
         results.append(total)
 
-    matrix =  np.zeros((2**n,2**n), dtype=np.int32);
+    matrix =  np.zeros((2**settings.n,2**settings.n), dtype=np.int32);
 
-    for i in range(2**n):
+    for i in range(2**settings.n):
         matrix[i][i] = results[i]
 
     return matrix
@@ -81,20 +81,20 @@ def inner_function(n, results_array, gamma_array, beta_array):
 
 def F_p(gamma_array, beta_array):
 
-    n = 8
     results_array = objective_function.gen_results_arr()
 
-    return inner_function(n,results_array,gamma_array,beta_array)
+    return inner_function(settings.n,results_array,gamma_array,beta_array)
 
 def F_p_test(conc_array):
-    n = 8
+
     half = len(conc_array)//2
-    beta_array = conc_array[half:]
+
     gamma_array = conc_array[:half]
+    beta_array = conc_array[half:]
 
     results_array = objective_function.gen_results_arr()
 
-    return inner_function(n,results_array,gamma_array,beta_array)
+    return inner_function(settings.n,results_array,gamma_array,beta_array)
 
 def H(t, B,C):
 
@@ -138,19 +138,19 @@ def H_optimize(n):
 
 
 
-    return [C[j][j], j]
+    return C[j][j], j
 
 
 
 
 if __name__ == "__main__":
 
-    n = 8
+    settings.n = 8
     p = 3
-    arr = [None] * n
+    arr = [None] * settings.n
 
     settings.init()
-    binary_string.binary_strings(n, arr, 0)
+    binary_string.binary_strings(settings.n, arr, 0)
     binary_string.fix_strings()
 
     gamma_vector = np.linspace(0,2*np.pi, 6)
@@ -159,7 +159,7 @@ if __name__ == "__main__":
     #
     # print(F_p(gamma_vector,beta_vector))
 
-    test = H_optimize(n)
+    test = H_optimize(settings.n)
 
     results = []
     results_array = objective_function.gen_results_arr()
