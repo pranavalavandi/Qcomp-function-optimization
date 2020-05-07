@@ -191,6 +191,7 @@ if __name__ == "__main__":
     f = open("results.txt", "w")
 
     settings.n = 2
+    
     for i in range(10):
         arr = [None] * settings.n
         binary_string.binary_strings(settings.n, arr, 0)
