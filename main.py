@@ -99,7 +99,7 @@ def F_p_test(conc_array):
 
 def H(t, B, C):
 
-    T = 200
+    T = 350
 
 
     H_t = B*(1-t/T) + C*(t/T)
@@ -110,7 +110,7 @@ def H(t, B, C):
 def H_optimize(n):
     results_array = objective_function.gen_results_arr()
 
-    T = 200
+    T = 350
     t = np.linspace(0,T,T)
     C = C_z(results_array)
     B = generate_B(n)
@@ -151,17 +151,17 @@ if __name__ == "__main__":
     arr = [None] * settings.n
 
     settings.init()
-    # binary_string.binary_strings(settings.n, arr, 0)
-    # binary_string.fix_strings()
+    binary_string.binary_strings(settings.n, arr, 0)
+    binary_string.fix_strings()
+
+    results = objective_function.gen_results_strings()
+    test = H_optimize(settings.n)
+    print()
+    print("H optimize index: {} String: {} Result: {}".format(test[1],settings.strings[test[1]], test[0]))
 
 
-    # test = H_optimize(settings.n)
-    # print()
-    # print("H optimize index: {} String: {} Result: {}".format(test[1],settings.strings[test[1]], test[0]))
-    #
-    #
-    # ind = results.index(max(results))
-    # print("Manually done index: {} String: {} Result: {}".format(ind,settings.strings[ind],results[ind]))
+    ind = results.index(max(results))
+    print("Manually done index: {} String: {} Result: {}".format(ind,settings.strings[ind],results[ind]))
 
     # x0 = [np.pi/3]*p
     # x1 = [np.pi/4]*p
@@ -174,31 +174,31 @@ if __name__ == "__main__":
 
 
 
-    f = open("results.txt", "w")
-
-    settings.n = 2
-
-    for i in range(13):
-        arr = [None] * settings.n
-        binary_string.binary_strings(settings.n, arr, 0)
-        binary_string.fix_strings()
-        results = objective_function.gen_results_strings()
-
-        test = H_optimize(settings.n)
-        f.write("Adiabatic: Index {} | String: {} | Result: {}\n".format(test[1],settings.strings[test[1]], test[0]))
-
-        ind = results.index(max(results))
-        f.write("Manually done: Index {} | String: {} |  Result: {}\n".format(ind,settings.strings[ind],results[ind]))
-
-        if test[0] == results[ind]:
-            f.write("CORRECT\n")
-        else:
-            f.write("INCORRECT\n")
-
-        f.write("\n")
-
-        settings.n += 1
-
-    f.close()
-
-    print("Done!")
+    # f = open("results.txt", "w")
+    #
+    # settings.n = 2
+    #
+    # for i in range(13):
+    #     arr = [None] * settings.n
+    #     binary_string.binary_strings(settings.n, arr, 0)
+    #     binary_string.fix_strings()
+    #     results = objective_function.gen_results_strings()
+    #
+    #     test = H_optimize(settings.n)
+    #     f.write("Adiabatic: Index {} | String: {} | Result: {}\n".format(test[1],settings.strings[test[1]], test[0]))
+    #
+    #     ind = results.index(max(results))
+    #     f.write("Manually done: Index {} | String: {} |  Result: {}\n".format(ind,settings.strings[ind],results[ind]))
+    #
+    #     if test[0] == results[ind]:
+    #         f.write("CORRECT\n")
+    #     else:
+    #         f.write("INCORRECT\n")
+    #
+    #     f.write("\n")
+    #
+    #     settings.n += 1
+    #
+    # f.close()
+    #
+    # print("Done!")
