@@ -59,3 +59,16 @@ def gen_results_arr():
     results.append(subclause_3(x))
 
     return results
+
+
+
+def gen_results_strings():
+    results = []
+    results_array = gen_results_arr()
+    for i in range(len(results_array[0])):
+        total = 0
+        for j in range(len(results_array)):
+            total += results_array[j][i]
+        results.append(total)
+
+    return results

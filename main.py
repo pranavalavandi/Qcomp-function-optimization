@@ -2,6 +2,7 @@
 import numpy as np
 from scipy.linalg import expm
 from scipy.optimize import minimize
+import networkx as nx
 
 import settings
 import binary_string
@@ -98,7 +99,7 @@ def F_p_test(conc_array):
 
 def H(t, B,C):
 
-    T = 100
+    T = 400
 
 
     H_t = B*(1-t/T) + C*(t/T)
@@ -109,7 +110,7 @@ def H(t, B,C):
 def H_optimize(n):
     results_array = objective_function.gen_results_arr()
 
-    T = 100
+    T = 400
     t = np.linspace(0,T,T)
     C = C_z(results_array)
     B = generate_B(n)
@@ -145,50 +146,72 @@ def H_optimize(n):
 
 if __name__ == "__main__":
 
-    settings.n = 8
+    settings.n = 3
     p = 3
     arr = [None] * settings.n
 
     settings.init()
-    binary_string.binary_strings(settings.n, arr, 0)
-    binary_string.fix_strings()
+    # binary_string.binary_strings(settings.n, arr, 0)
+    # binary_string.fix_strings()
 
-    gamma_vector = np.linspace(0,2*np.pi, 6)
-    beta_vector = np.linspace(0,np.pi * 1.1, p)
+
+    # results_array = objective_function.gen_results_arr()
+    # for i in range(len(results_array[0])):
+    #     total = 0
+    #     for j in range(len(results_array)):
+    #         total += results_array[j][i]
+    #     results.append(total)
+    # print("Results:",results)
+
+
+
+    # test = H_optimize(settings.n)
+    # print()
+    # print("H optimize index: {} String: {} Result: {}".format(test[1],settings.strings[test[1]], test[0]))
     #
     #
-    # print(F_p(gamma_vector,beta_vector))
-
-    test = H_optimize(settings.n)
-
-    results = []
-    results_array = objective_function.gen_results_arr()
-    for i in range(len(results_array[0])):
-        total = 0
-        for j in range(len(results_array)):
-            total += results_array[j][i]
-        results.append(total)
-
-    print("H optimize index: {} String {}".format(test[1],settings.strings[test[1]]))
-    print("Results:",results)
-
-    ind = results.index(max(results))
-    print("Manually done index {}, string {}".format(ind,settings.strings[ind]))
+    # ind = results.index(max(results))
+    # print("Manually done index: {} String: {} Result: {}".format(ind,settings.strings[ind],results[ind]))
+    #
+    # # print(sum(objective_function.gen_single_result(settings.strings[test[1]])))
+    #
+    #
+    #
+    # x0 = [np.pi/3]*p
+    # x1 = [np.pi/4]*p
+    # x = x0 + x1
+    # bnds1 = [(0,2*np.pi)]*(2*p)
+    #
+    # sol = minimize(F_p_test,x,method = 'SLSQP',bounds = bnds1)
+    # print(sol)
+    # print(F_p(sol.x[:p], sol.x[p:]))
 
 
 
+    f = open("results.txt", "w")
 
+    settings.n = 2
+    for i in range(10):
+        arr = [None] * settings.n
+        binary_string.binary_strings(settings.n, arr, 0)
+        binary_string.fix_strings()
+        results = objective_function.gen_results_strings()
 
+        test = H_optimize(settings.n)
+        f.write("Adiabatic: Index {} | String: {} | Result: {}\n".format(test[1],settings.strings[test[1]], test[0]))
 
+        ind = results.index(max(results))
+        f.write("Manually done: Index {} | String: {} |  Result: {}\n".format(ind,settings.strings[ind],results[ind]))
 
-    x0 = [np.pi/3]*p
-    x1 = [np.pi/4]*p
+        if test[0] == results[ind]:
+            f.write("CORRECT\n")
+        else:
+            f.write("INCORRECT\n")
 
+        f.write("\n")
 
-    x = x0 + x1
-    bnds1 = [(0,2*np.pi)]*(2*p)
+        settings.n += 1
 
+    f.close()
 
-    sol = minimize(F_p_test,x,method = 'SLSQP',bounds = bnds1)
-    print(sol)
-    print(F_p(sol.x[:p], sol.x[p:]))
+    print("Done!")
