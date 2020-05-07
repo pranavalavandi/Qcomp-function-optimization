@@ -30,3 +30,11 @@ Adiabatic: Index 511 | String: [0, 0, 0, 0, 0, 0, 0, 1, 1] | Result: 8
 Manually done: Index 895 | String: [1, 1, 0, 0, 0, 0, 0, 1, 1] |  Result: 9
 INCORRECT
 
+Adiabatic: Index 1023 | String: [0, 0, 0, 0, 0, 0, 0, 0, 1, 1] | Result: 9
+Manually done: Index 1791 | String: [1, 1, 0, 0, 0, 0, 0, 0, 1, 1] |  Result: 10
+INCORRECT
+
+Adiabatic: Index 2047 | String: [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1] | Result: 10
+Manually done: Index 3583 | String: [1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1] |  Result: 11
+INCORRECT
+

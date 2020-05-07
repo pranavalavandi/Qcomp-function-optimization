@@ -1,5 +1,5 @@
 import settings
-
+import networkx as nx
 
 def qubit(b):
     return 1-2*b
@@ -48,7 +48,7 @@ def subclause_3(strings):
             results.append(0)
 
     return results
-
+    
 
 def gen_results_arr():
     # global strings

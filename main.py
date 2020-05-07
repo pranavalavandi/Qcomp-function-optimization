@@ -2,7 +2,7 @@
 import numpy as np
 from scipy.linalg import expm
 from scipy.optimize import minimize
-import networkx as nx
+
 
 import settings
 import binary_string
@@ -97,9 +97,9 @@ def F_p_test(conc_array):
 
     return inner_function(settings.n,results_array,gamma_array,beta_array)
 
-def H(t, B,C):
+def H(t, B, C):
 
-    T = 400
+    T = 200
 
 
     H_t = B*(1-t/T) + C*(t/T)
@@ -110,7 +110,7 @@ def H(t, B,C):
 def H_optimize(n):
     results_array = objective_function.gen_results_arr()
 
-    T = 400
+    T = 200
     t = np.linspace(0,T,T)
     C = C_z(results_array)
     B = generate_B(n)
@@ -129,7 +129,7 @@ def H_optimize(n):
     # print(abs_val)
 
     for i in range(len(abs_val)):
-        if abs_val[i] >= largest_val:
+        if abs_val[i] > largest_val:
             largest_val = abs_val[i]
             j = i
 
@@ -155,16 +155,6 @@ if __name__ == "__main__":
     # binary_string.fix_strings()
 
 
-    # results_array = objective_function.gen_results_arr()
-    # for i in range(len(results_array[0])):
-    #     total = 0
-    #     for j in range(len(results_array)):
-    #         total += results_array[j][i]
-    #     results.append(total)
-    # print("Results:",results)
-
-
-
     # test = H_optimize(settings.n)
     # print()
     # print("H optimize index: {} String: {} Result: {}".format(test[1],settings.strings[test[1]], test[0]))
@@ -172,11 +162,7 @@ if __name__ == "__main__":
     #
     # ind = results.index(max(results))
     # print("Manually done index: {} String: {} Result: {}".format(ind,settings.strings[ind],results[ind]))
-    #
-    # # print(sum(objective_function.gen_single_result(settings.strings[test[1]])))
-    #
-    #
-    #
+
     # x0 = [np.pi/3]*p
     # x1 = [np.pi/4]*p
     # x = x0 + x1
@@ -191,8 +177,8 @@ if __name__ == "__main__":
     f = open("results.txt", "w")
 
     settings.n = 2
-    
-    for i in range(10):
+
+    for i in range(13):
         arr = [None] * settings.n
         binary_string.binary_strings(settings.n, arr, 0)
         binary_string.fix_strings()
