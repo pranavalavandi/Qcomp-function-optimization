@@ -1,40 +1,15 @@
-Adiabatic: Index 3 | String: [1, 1] | Result: 2
-Manually done: Index 3 | String: [1, 1] |  Result: 2
+3
+Adiabatic: Index 3 | String: [0, 1, 1] | Result: 2
+Manually done: Index 0 | String: [0, 0, 0] |  Result: 2
 CORRECT
 
-Adiabatic: Index 3 | String: [1, 1] | Result: 2
-Manually done: Index 3 | String: [1, 1] |  Result: 2
+4
+Adiabatic: Index 11 | String: [0, 0, 1, 1] | Result: 3
+Manually done: Index 8 | String: [0, 0, 0, 0] |  Result: 3
 CORRECT
 
-Adiabatic: Index 15 | String: [0, 0, 1, 1] | Result: 3
-Manually done: Index 12 | String: [0, 0, 0, 0] |  Result: 3
-CORRECT
-
-Adiabatic: Index 28 | String: [0, 0, 0, 0, 0] | Result: 4
-Manually done: Index 55 | String: [1, 1, 0, 1, 1] |  Result: 5
-INCORRECT
-
-Adiabatic: Index 63 | String: [0, 0, 0, 0, 1, 1] | Result: 5
-Manually done: Index 111 | String: [1, 1, 0, 0, 1, 1] |  Result: 6
-INCORRECT
-
-Adiabatic: Index 127 | String: [0, 0, 0, 0, 0, 1, 1] | Result: 6
-Manually done: Index 223 | String: [1, 1, 0, 0, 0, 1, 1] |  Result: 7
-INCORRECT
-
-Adiabatic: Index 255 | String: [0, 0, 0, 0, 0, 0, 1, 1] | Result: 7
-Manually done: Index 447 | String: [1, 1, 0, 0, 0, 0, 1, 1] |  Result: 8
-INCORRECT
-
-Adiabatic: Index 511 | String: [0, 0, 0, 0, 0, 0, 0, 1, 1] | Result: 8
-Manually done: Index 895 | String: [1, 1, 0, 0, 0, 0, 0, 1, 1] |  Result: 9
-INCORRECT
-
-Adiabatic: Index 1023 | String: [0, 0, 0, 0, 0, 0, 0, 0, 1, 1] | Result: 9
-Manually done: Index 1791 | String: [1, 1, 0, 0, 0, 0, 0, 0, 1, 1] |  Result: 10
-INCORRECT
-
-Adiabatic: Index 2047 | String: [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1] | Result: 10
-Manually done: Index 3583 | String: [1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1] |  Result: 11
+5
+Adiabatic: Index 27 | String: [0, 0, 0, 1, 1] | Result: 4
+Manually done: Index 51 | String: [1, 1, 0, 1, 1] |  Result: 5
 INCORRECT
 

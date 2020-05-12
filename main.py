@@ -2,7 +2,7 @@
 import numpy as np
 from scipy.linalg import expm
 from scipy.optimize import minimize
-
+import matplotlib.pyplot as plt
 
 import settings
 import binary_string
@@ -97,9 +97,29 @@ def F_p_test(conc_array):
 
     return inner_function(settings.n,results_array,gamma_array,beta_array)
 
+def F_p_evolution():
+    p = 1
+    p_array = []
+    results = []
+    for i in range(8):
+
+        x0 = [np.pi/3]*p
+        x1 = [np.pi/4]*p
+        x = x0 + x1
+        bnds1 = [(0,2*np.pi)]*(2*p)
+        sol = minimize(F_p_test,x,method = 'SLSQP',bounds = bnds1)
+
+        results.append(sol.fun)
+        p_array.append(p)
+        p += 1
+        # print(sol)
+        # print(F_p(sol.x[:p], sol.x[p:]))
+
+    return p_array, results
+
 def H(t, B, C):
 
-    T = 350
+    T = 4000
 
 
     H_t = B*(1-t/T) + C*(t/T)
@@ -110,7 +130,7 @@ def H(t, B, C):
 def H_optimize(n):
     results_array = objective_function.gen_results_arr()
 
-    T = 350
+    T = 4000
     t = np.linspace(0,T,T)
     C = C_z(results_array)
     B = generate_B(n)
@@ -142,26 +162,85 @@ def H_optimize(n):
     return C[j][j], j
 
 
+def H_evolution(n):
+    results_array = objective_function.gen_results_arr()
+
+
+
+    T = 4000
+    t = np.linspace(0,T,T)
+    C = C_z(results_array)
+    B = generate_B(n)
+
+    vec = (np.array(np.ones(2**n)/np.sqrt(2**n))[np.newaxis]).T
+
+    max_element = []
+
+    for time in t:
+        U = expm(-1j*H(time,B,C))
+        vec = U.dot(vec)
+        max_element.append(max(np.absolute(vec)))
+
+
+    return t,max_element
+
+
+
+
+
+def results_to_file():
+    f = open("results.txt", "w")
+
+    settings.n = 3
+
+    for i in range(3):
+        arr = [None] * settings.n
+        binary_string.binary_strings(settings.n, arr, 0)
+        binary_string.fix_strings()
+        results = objective_function.gen_results_strings()
+
+        test = H_optimize(settings.n)
+        f.write("{}\n".format(settings.n))
+        f.write("Adiabatic: Index {} | String: {} | Result: {}\n".format(test[1],settings.strings[test[1]], test[0]))
+
+        ind = results.index(max(results))
+        f.write("Manually done: Index {} | String: {} |  Result: {}\n".format(ind,settings.strings[ind],results[ind]))
+
+        if test[0] == results[ind]:
+            f.write("CORRECT\n")
+        else:
+            f.write("INCORRECT\n")
+
+        f.write("\n")
+
+        settings.n += 1
+
+    f.close()
+
+    print("Done!")
+
+
+
 
 
 if __name__ == "__main__":
 
     settings.n = 3
-    p = 3
-    arr = [None] * settings.n
+    # p = 3
 
+    arr = [None] * settings.n
     settings.init()
     binary_string.binary_strings(settings.n, arr, 0)
     binary_string.fix_strings()
-
-    results = objective_function.gen_results_strings()
-    test = H_optimize(settings.n)
-    print()
-    print("H optimize index: {} String: {} Result: {}".format(test[1],settings.strings[test[1]], test[0]))
-
-
-    ind = results.index(max(results))
-    print("Manually done index: {} String: {} Result: {}".format(ind,settings.strings[ind],results[ind]))
+    #
+    # results = objective_function.gen_results_strings()
+    # test = H_optimize(settings.n)
+    # print()
+    # print("H optimize index: {} String: {} Result: {}".format(test[1],settings.strings[test[1]], test[0]))
+    #
+    #
+    # ind = results.index(max(results))
+    # print("Manually done index: {} String: {} Result: {}".format(ind,settings.strings[ind],results[ind]))
 
     # x0 = [np.pi/3]*p
     # x1 = [np.pi/4]*p
@@ -173,32 +252,12 @@ if __name__ == "__main__":
     # print(F_p(sol.x[:p], sol.x[p:]))
 
 
+    # results_to_file()
 
-    # f = open("results.txt", "w")
-    #
-    # settings.n = 2
-    #
-    # for i in range(13):
-    #     arr = [None] * settings.n
-    #     binary_string.binary_strings(settings.n, arr, 0)
-    #     binary_string.fix_strings()
-    #     results = objective_function.gen_results_strings()
-    #
-    #     test = H_optimize(settings.n)
-    #     f.write("Adiabatic: Index {} | String: {} | Result: {}\n".format(test[1],settings.strings[test[1]], test[0]))
-    #
-    #     ind = results.index(max(results))
-    #     f.write("Manually done: Index {} | String: {} |  Result: {}\n".format(ind,settings.strings[ind],results[ind]))
-    #
-    #     if test[0] == results[ind]:
-    #         f.write("CORRECT\n")
-    #     else:
-    #         f.write("INCORRECT\n")
-    #
-    #     f.write("\n")
-    #
-    #     settings.n += 1
-    #
-    # f.close()
-    #
-    # print("Done!")
+    # x = H_evolution(settings.n)
+    # plt.scatter(x[0], x[1])
+    # plt.show()
+
+    y = F_p_evolution()
+    plt.scatter(y[0],y[1])
+    plt.show()
