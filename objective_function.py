@@ -48,7 +48,20 @@ def subclause_3(strings):
             results.append(0)
 
     return results
-    
+
+
+def subclause_4(strings):
+    results = []
+
+    for i in range(len(strings)):
+        sum  = 0
+        for j in range(len(strings[i])):
+            sum += qubit(strings[i][j])*qubit(strings[i][(len(strings[i]) - j)//2 + j])
+
+        results.append(sum)
+
+    return results
+
 
 def gen_results_arr():
     # global strings
@@ -57,6 +70,7 @@ def gen_results_arr():
     results.append(subclause_1(x))
     results.append(subclause_2(x))
     results.append(subclause_3(x))
+    results.append(subclause_4(x))
 
     return results
 

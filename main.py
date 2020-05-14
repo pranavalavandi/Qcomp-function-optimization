@@ -98,10 +98,11 @@ def F_p_test(conc_array):
     return inner_function(settings.n,results_array,gamma_array,beta_array)
 
 def F_p_evolution():
+    settings.n = 5
     p = 1
     p_array = []
     results = []
-    for i in range(8):
+    for i in range(20):
 
         x0 = [np.pi/3]*p
         x1 = [np.pi/4]*p
@@ -163,6 +164,7 @@ def H_optimize(n):
 
 
 def H_evolution(n):
+    # settings.n = 5
     results_array = objective_function.gen_results_arr()
 
 
@@ -191,9 +193,9 @@ def H_evolution(n):
 def results_to_file():
     f = open("results.txt", "w")
 
-    settings.n = 3
+    settings.n = 4
 
-    for i in range(3):
+    for i in range(15):
         arr = [None] * settings.n
         binary_string.binary_strings(settings.n, arr, 0)
         binary_string.fix_strings()
@@ -225,7 +227,7 @@ def results_to_file():
 
 if __name__ == "__main__":
 
-    settings.n = 3
+    settings.n = 5
     # p = 3
 
     arr = [None] * settings.n
@@ -233,7 +235,8 @@ if __name__ == "__main__":
     binary_string.binary_strings(settings.n, arr, 0)
     binary_string.fix_strings()
     #
-    # results = objective_function.gen_results_strings()
+    results = objective_function.gen_results_strings()
+    # print(results)
     # test = H_optimize(settings.n)
     # print()
     # print("H optimize index: {} String: {} Result: {}".format(test[1],settings.strings[test[1]], test[0]))
@@ -252,12 +255,17 @@ if __name__ == "__main__":
     # print(F_p(sol.x[:p], sol.x[p:]))
 
 
-    # results_to_file()
 
+    # 
     # x = H_evolution(settings.n)
     # plt.scatter(x[0], x[1])
+    # plt.xlabel("H")
+    # plt.ylabel("Optimal Value")
     # plt.show()
 
     y = F_p_evolution()
-    plt.scatter(y[0],y[1])
+    plt.scatter(y[0],[-i for i in y[1]])
     plt.show()
+
+    #
+    # results_to_file()
