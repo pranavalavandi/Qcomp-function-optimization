@@ -1,15 +1,40 @@
 3
-Adiabatic: Index 3 | String: [0, 1, 1] | Result: 2
-Manually done: Index 0 | String: [0, 0, 0] |  Result: 2
+Adiabatic: Index 6 | String: [0, 0, 0, 0, 1, 1, 0] | Result: 8
+Manually done: Index 6 | String: [0, 0, 0, 0, 1, 1, 0] |  Result: 8
 CORRECT
 
 4
-Adiabatic: Index 11 | String: [0, 0, 1, 1] | Result: 3
-Manually done: Index 8 | String: [0, 0, 0, 0] |  Result: 3
+Adiabatic: Index 6 | String: [0, 0, 0, 0, 1, 1, 0] | Result: 8
+Manually done: Index 6 | String: [0, 0, 0, 0, 1, 1, 0] |  Result: 8
 CORRECT
 
 5
-Adiabatic: Index 27 | String: [0, 0, 0, 1, 1] | Result: 4
-Manually done: Index 51 | String: [1, 1, 0, 1, 1] |  Result: 5
+Adiabatic: Index 6 | String: [0, 0, 0, 0, 1, 1, 0] | Result: 8
+Manually done: Index 6 | String: [0, 0, 0, 0, 1, 1, 0] |  Result: 8
+CORRECT
+
+6
+Adiabatic: Index 6 | String: [0, 0, 0, 0, 1, 1, 0] | Result: 8
+Manually done: Index 6 | String: [0, 0, 0, 0, 1, 1, 0] |  Result: 8
+CORRECT
+
+7
+Adiabatic: Index 6 | String: [0, 0, 0, 0, 1, 1, 0] | Result: 8
+Manually done: Index 6 | String: [0, 0, 0, 0, 1, 1, 0] |  Result: 8
+CORRECT
+
+8
+Adiabatic: Index 6 | String: [0, 0, 0, 0, 1, 1, 0] | Result: 8
+Manually done: Index 595 | String: [1, 1, 0, 1, 1, 0, 1, 1] |  Result: 10
+INCORRECT
+
+9
+Adiabatic: Index 403 | String: [0, 0, 0, 1, 1, 0, 1, 1] | Result: 9
+Manually done: Index 1070 | String: [1, 1, 0, 1, 1, 0, 1, 1, 0] |  Result: 11
+INCORRECT
+
+10
+Adiabatic: Index 1022 | String: [1, 1, 0, 0, 0, 0, 1, 1, 0] | Result: 10
+Manually done: Index 1939 | String: [1, 1, 0, 0, 0, 1, 1, 0, 1, 1] |  Result: 12
 INCORRECT
 

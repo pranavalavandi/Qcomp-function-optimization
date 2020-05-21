@@ -164,7 +164,11 @@ def H_optimize(n):
 
 
 def H_evolution(n):
-    # settings.n = 5
+    settings.n = 8
+    arr = [None] * settings.n
+    binary_string.binary_strings(settings.n, arr, 0)
+    binary_string.fix_strings()
+    results = objective_function.gen_results_strings()
     results_array = objective_function.gen_results_arr()
 
 
@@ -172,9 +176,9 @@ def H_evolution(n):
     T = 4000
     t = np.linspace(0,T,T)
     C = C_z(results_array)
-    B = generate_B(n)
+    B = generate_B(settings.n)
 
-    vec = (np.array(np.ones(2**n)/np.sqrt(2**n))[np.newaxis]).T
+    vec = (np.array(np.ones(2**settings.n)/np.sqrt(2**settings.n))[np.newaxis]).T
 
     max_element = []
 
@@ -182,7 +186,16 @@ def H_evolution(n):
         U = expm(-1j*H(time,B,C))
         vec = U.dot(vec)
         max_element.append(max(np.absolute(vec)))
-
+        # abs_val = np.absolute(vec)
+        # largest_val = 0
+        # j = -1
+        #
+        # for i in range(len(abs_val)):
+        #     if abs_val[i] > largest_val:
+        #         largest_val = abs_val[i]
+        #         j = i
+        #
+        # max_element.append(C[j][j])
 
     return t,max_element
 
@@ -193,9 +206,9 @@ def H_evolution(n):
 def results_to_file():
     f = open("results.txt", "w")
 
-    settings.n = 4
+    settings.n = 3
 
-    for i in range(15):
+    for i in range(12):
         arr = [None] * settings.n
         binary_string.binary_strings(settings.n, arr, 0)
         binary_string.fix_strings()
@@ -227,7 +240,7 @@ def results_to_file():
 
 if __name__ == "__main__":
 
-    settings.n = 5
+    settings.n = 7
     # p = 3
 
     arr = [None] * settings.n
@@ -235,7 +248,7 @@ if __name__ == "__main__":
     binary_string.binary_strings(settings.n, arr, 0)
     binary_string.fix_strings()
     #
-    results = objective_function.gen_results_strings()
+    # results = objective_function.gen_results_strings()
     # print(results)
     # test = H_optimize(settings.n)
     # print()
@@ -256,16 +269,18 @@ if __name__ == "__main__":
 
 
 
-    # 
-    # x = H_evolution(settings.n)
-    # plt.scatter(x[0], x[1])
-    # plt.xlabel("H")
-    # plt.ylabel("Optimal Value")
-    # plt.show()
 
-    y = F_p_evolution()
-    plt.scatter(y[0],[-i for i in y[1]])
-    plt.show()
+
+
+    # y = F_p_evolution()
+    # plt.scatter(y[0],[-i for i in y[1]])
+    # plt.show()
 
     #
     # results_to_file()
+    x = H_evolution(settings.n)
+    print("done");
+    plt.scatter(x[0], x[1])
+    plt.xlabel("H")
+    plt.ylabel("Optimal Value")
+    plt.show()
