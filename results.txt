@@ -1,40 +1,35 @@
 3
-Adiabatic: Index 6 | String: [0, 0, 0, 0, 1, 1, 0] | Result: 8
-Manually done: Index 6 | String: [0, 0, 0, 0, 1, 1, 0] |  Result: 8
+Adiabatic: Index 0 | String: [0, 0, 0, 0, 0, 0, 0] | Result: 6
+Manually done: Index 0 | String: [0, 0, 0, 0, 0, 0, 0] |  Result: 6
 CORRECT
 
 4
-Adiabatic: Index 6 | String: [0, 0, 0, 0, 1, 1, 0] | Result: 8
-Manually done: Index 6 | String: [0, 0, 0, 0, 1, 1, 0] |  Result: 8
+Adiabatic: Index 0 | String: [0, 0, 0, 0, 0, 0, 0] | Result: 6
+Manually done: Index 0 | String: [0, 0, 0, 0, 0, 0, 0] |  Result: 6
 CORRECT
 
 5
-Adiabatic: Index 6 | String: [0, 0, 0, 0, 1, 1, 0] | Result: 8
-Manually done: Index 6 | String: [0, 0, 0, 0, 1, 1, 0] |  Result: 8
+Adiabatic: Index 0 | String: [0, 0, 0, 0, 0, 0, 0] | Result: 6
+Manually done: Index 0 | String: [0, 0, 0, 0, 0, 0, 0] |  Result: 6
 CORRECT
 
 6
-Adiabatic: Index 6 | String: [0, 0, 0, 0, 1, 1, 0] | Result: 8
-Manually done: Index 6 | String: [0, 0, 0, 0, 1, 1, 0] |  Result: 8
+Adiabatic: Index 0 | String: [0, 0, 0, 0, 0, 0, 0] | Result: 6
+Manually done: Index 0 | String: [0, 0, 0, 0, 0, 0, 0] |  Result: 6
 CORRECT
 
 7
-Adiabatic: Index 6 | String: [0, 0, 0, 0, 1, 1, 0] | Result: 8
-Manually done: Index 6 | String: [0, 0, 0, 0, 1, 1, 0] |  Result: 8
+Adiabatic: Index 0 | String: [0, 0, 0, 0, 0, 0, 0] | Result: 6
+Manually done: Index 0 | String: [0, 0, 0, 0, 0, 0, 0] |  Result: 6
 CORRECT
 
 8
-Adiabatic: Index 6 | String: [0, 0, 0, 0, 1, 1, 0] | Result: 8
-Manually done: Index 595 | String: [1, 1, 0, 1, 1, 0, 1, 1] |  Result: 10
+Adiabatic: Index 248 | String: [0, 0, 0, 0, 0, 0, 0] | Result: 6
+Manually done: Index 595 | String: [1, 1, 0, 1, 1, 0, 1, 1] |  Result: 8
 INCORRECT
 
 9
-Adiabatic: Index 403 | String: [0, 0, 0, 1, 1, 0, 1, 1] | Result: 9
-Manually done: Index 1070 | String: [1, 1, 0, 1, 1, 0, 1, 1, 0] |  Result: 11
-INCORRECT
-
-10
-Adiabatic: Index 1022 | String: [1, 1, 0, 0, 0, 0, 1, 1, 0] | Result: 10
-Manually done: Index 1939 | String: [1, 1, 0, 0, 0, 1, 1, 0, 1, 1] |  Result: 12
+Adiabatic: Index 376 | String: [0, 0, 0, 0, 0, 0, 0, 0] | Result: 7
+Manually done: Index 595 | String: [1, 1, 0, 1, 1, 0, 1, 1] |  Result: 8
 INCORRECT
 

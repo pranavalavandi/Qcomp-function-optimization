@@ -55,10 +55,13 @@ def subclause_4(strings):
 
     for i in range(len(strings)):
         sum  = 0
-        for j in range(len(strings[i])):
-            sum += ((-1)**j)*qubit(strings[i][j])*qubit(strings[i][(len(strings[i]) - j)//2 + j])
+        for j in range(len(strings[i])-2):
+                # sum += ((-1)**j)*qubit(strings[i][j])*qubit(strings[i][(len(strings[i]) - j)//2 + j])
+            sum += (qubit(strings[i][j])*qubit(strings[i][j+1]))^(qubit(strings[i][j+2]))
 
-        results.append(sum//2)
+
+        sum = sum//2
+        results.append(sum)
 
     return results
 

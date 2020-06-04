@@ -98,11 +98,16 @@ def F_p_test(conc_array):
     return inner_function(settings.n,results_array,gamma_array,beta_array)
 
 def F_p_evolution():
-    settings.n = 5
-    p = 1
+    settings.n = 7
+    arr = [None] * settings.n
+    binary_string.binary_strings(settings.n, arr, 0)
+    binary_string.fix_strings()
+    results = objective_function.gen_results_strings()
+    results_array = objective_function.gen_results_arr()
+    p = 2
     p_array = []
     results = []
-    for i in range(20):
+    for i in range(16):
 
         x0 = [np.pi/3]*p
         x1 = [np.pi/4]*p
@@ -272,15 +277,19 @@ if __name__ == "__main__":
 
 
 
-    # y = F_p_evolution()
-    # plt.scatter(y[0],[-i for i in y[1]])
-    # plt.show()
+    y = F_p_evolution()
+    print(y)
+    plt.scatter(y[0],[-i for i in y[1]])
+    plt.xlabel("p")
+    plt.ylabel("Optimal Value")
+    plt.ylim([0,7])
+    plt.show()
 
     #
     # results_to_file()
-    x = H_evolution(settings.n)
-    print("done");
-    plt.scatter(x[0], x[1])
-    plt.xlabel("H")
-    plt.ylabel("Optimal Value")
-    plt.show()
+    # x = H_evolution(settings.n)
+    # print("done");
+    # plt.scatter(x[0], x[1])
+    # plt.xlabel("H")
+    # plt.ylabel("Optimal Value")
+    # plt.show()
