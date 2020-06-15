@@ -3,6 +3,7 @@ import numpy as np
 from scipy.linalg import expm
 from scipy.optimize import minimize
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 
 import settings
 import binary_string
@@ -97,8 +98,8 @@ def F_p_test(conc_array):
 
     return inner_function(settings.n,results_array,gamma_array,beta_array)
 
-def F_p_evolution():
-    settings.n = 7
+def F_p_evolution(n):
+    settings.n = n
     arr = [None] * settings.n
     binary_string.binary_strings(settings.n, arr, 0)
     binary_string.fix_strings()
@@ -107,17 +108,26 @@ def F_p_evolution():
     p = 2
     p_array = []
     results = []
-    for i in range(16):
+    x0 = [np.pi/3]*p
+    x1 = [np.pi/4]*p
+    x = x0 + x1
 
-        x0 = [np.pi/3]*p
-        x1 = [np.pi/4]*p
-        x = x0 + x1
+    for i in range(15):
+
+
         bnds1 = [(0,2*np.pi)]*(2*p)
         sol = minimize(F_p_test,x,method = 'SLSQP',bounds = bnds1)
 
         results.append(sol.fun)
         p_array.append(p)
         p += 1
+
+        x = []
+        for i in sol.x:
+            x.append(i)
+        x.append(0)
+        x.append(0)
+
         # print(sol)
         # print(F_p(sol.x[:p], sol.x[p:]))
 
@@ -169,7 +179,7 @@ def H_optimize(n):
 
 
 def H_evolution(n):
-    settings.n = 8
+    settings.n = n
     arr = [None] * settings.n
     binary_string.binary_strings(settings.n, arr, 0)
     binary_string.fix_strings()
@@ -274,22 +284,42 @@ if __name__ == "__main__":
 
 
 
+    # x = H_evolution(6)
+    # plt.scatter(x[0], x[1], color='r')
+    # x = H_evolution(8)
+    # plt.scatter(x[0], x[1], color='g')
+    # x = H_evolution(10)
+    # plt.scatter(x[0], x[1],color='b')
+    # red = mpatches.Patch(color='red', label='n=6')
+    # green = mpatches.Patch(color='red', label='n=8')
+    # blue = mpatches.Patch(color='red', label='n=10')
+    # plt.legend(handles=[red,green,blue])
+    #
+    # plt.xlabel("H")
+    # plt.ylabel("Optimal Value")
+    # plt.show()
 
 
 
-    y = F_p_evolution()
-    print(y)
-    plt.scatter(y[0],[-i for i in y[1]])
+    # y = F_p_evolution(6)
+    # plt.scatter(y[0],[-i for i in y[1]], color='r')
+
+    # y = F_p_evolution(8)
+    # plt.scatter(y[0],[-i for i in y[1]], color='g')
+
+    y = F_p_evolution(10)
+    plt.scatter(y[0],[-i for i in y[1]], color='b')
+
+    red = mpatches.Patch(color='red', label='n=6')
+    green = mpatches.Patch(color='green', label='n=8')
+    blue = mpatches.Patch(color='blue', label='n=10')
+    plt.legend(handles=[red,green,blue])
+
+
     plt.xlabel("p")
     plt.ylabel("Optimal Value")
-    plt.ylim([0,7])
+    plt.ylim([0,15])
     plt.show()
 
     #
     # results_to_file()
-    # x = H_evolution(settings.n)
-    # print("done");
-    # plt.scatter(x[0], x[1])
-    # plt.xlabel("H")
-    # plt.ylabel("Optimal Value")
-    # plt.show()
