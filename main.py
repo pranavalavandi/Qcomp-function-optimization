@@ -98,7 +98,7 @@ def F_p_test(conc_array):
 
     return inner_function(settings.n,results_array,gamma_array,beta_array)
 
-def F_p_evolution(n):
+def F_p_evolution(n, p_max):
     settings.n = n
     arr = [None] * settings.n
     binary_string.binary_strings(settings.n, arr, 0)
@@ -108,28 +108,34 @@ def F_p_evolution(n):
     p = 2
     p_array = []
     results = []
-    x0 = [np.pi/3]*p
-    x1 = [np.pi/4]*p
-    x = x0 + x1
+    function_calls = []
 
-    for i in range(15):
+    for i in range(p_max):
 
+        x0 = [np.pi/3]*p
+        x1 = [np.pi/4]*p
+        x = x0 + x1
+        bnds1 = [(0,np.pi)]*(p)
+        bnds2 = [(0,2*np.pi)]*(p)
+        bnds = bnds1 + bnds2
 
-        bnds1 = [(0,2*np.pi)]*(2*p)
-        sol = minimize(F_p_test,x,method = 'SLSQP',bounds = bnds1)
+        sol = minimize(F_p_test,x,method = 'SLSQP',bounds = bnds)
 
         results.append(sol.fun)
+        function_calls.append(sol.njev)
         p_array.append(p)
         p += 1
 
-        x = []
-        for i in sol.x:
-            x.append(i)
-        x.append(0)
-        x.append(0)
+        # x = []
+        # for i in sol.x:
+        #     x.append(i)
+        # x.append(0)
+        # x.append(0)
 
-        # print(sol)
-        # print(F_p(sol.x[:p], sol.x[p:]))
+
+    return p_array, results, function_calls
+
+
 
     return p_array, results
 
@@ -299,20 +305,23 @@ if __name__ == "__main__":
     # plt.ylabel("Optimal Value")
     # plt.show()
 
+    n_1 = 5
+    n_2 = 6
+    n_3 = 7
+    p = 10
 
+    y_1 = F_p_evolution(n_1,p)
+    plt.scatter(y_1[0],[-i for i in y_1[1]], color='r')
 
-    # y = F_p_evolution(6)
-    # plt.scatter(y[0],[-i for i in y[1]], color='r')
+    y_2 = F_p_evolution(n_2, p)
+    plt.scatter(y_2[0],[-i for i in y_2[1]], color='g')
 
-    # y = F_p_evolution(8)
-    # plt.scatter(y[0],[-i for i in y[1]], color='g')
+    y_3 = F_p_evolution(n_3, p)
+    plt.scatter(y_3[0],[-i for i in y_3[1]], color='b')
 
-    y = F_p_evolution(10)
-    plt.scatter(y[0],[-i for i in y[1]], color='b')
-
-    red = mpatches.Patch(color='red', label='n=6')
-    green = mpatches.Patch(color='green', label='n=8')
-    blue = mpatches.Patch(color='blue', label='n=10')
+    red = mpatches.Patch(color='red', label='n={}'.format(n_1))
+    green = mpatches.Patch(color='green', label='n={}'.format(n_2))
+    blue = mpatches.Patch(color='blue', label='n={}'.format(n_3))
     plt.legend(handles=[red,green,blue])
 
 
@@ -321,5 +330,27 @@ if __name__ == "__main__":
     plt.ylim([0,15])
     plt.show()
 
-    #
+
+    # y_3 = F_p_evolution(n_3, p)
+    # plt.scatter(y_3[0],[-i for i in y_3[1]], color='b')
+    y_f = y_3[2];
+    repetitions = 9
+    for i in range(repetitions):
+        y_3 = F_p_evolution(n_3, p)
+        for j in range(p):
+            y_f[j] += y_3[2][j]
+
+
+    for i in y_f:
+        y = i/repetitions
+
+    print(y_f)
+    plt.plot(y_3[0],y_f, color='b')
+    plt.xlabel("p")
+    plt.ylabel("Number of function calls")
+
+    plt.show()
+
+
+
     # results_to_file()
